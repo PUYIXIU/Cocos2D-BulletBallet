@@ -19,16 +19,42 @@ export default class NewClass extends cc.Component {
     @property
     scrollSpeed:number = 100
 
+    @property(cc.Prefab)
+    enemyPre:cc.Prefab = null
+
+    minX:number = 0
+    maxX:number = 0
+    maxY:number = 0
+    
+    @property
+    enemyCreateInterval:number = 1
+
+    enemyCreator = null
+
     onLoad(){
         this.scrollHeight = cc.view.getVisibleSize().height
         cc.director.getCollisionManager().enabled = true
     }
 
     start () {
-        
+        let xPad = 15
+        this.minX = xPad 
+        this.maxX = cc.find(CompPath.MainGameWindow).width + xPad
+        this.maxY = cc.view.getVisibleSize().height 
+        this.createEnemy()
+
     }
 
-    
+    createEnemy(){
+        this.enemyCreator = setInterval(()=>{
+            const enemy = cc.instantiate(this.enemyPre)
+            enemy.x = this.minX + Math.random() * (this.maxX - enemy.width - this.minX)  + enemy.width/2
+
+            enemy.y = this.maxY
+            enemy.setParent(cc.find(CompPath.MainGameWindow))
+        },this.enemyCreateInterval * 1000)
+    }
+
     update (dt) {
         this.backMove(dt)
     }

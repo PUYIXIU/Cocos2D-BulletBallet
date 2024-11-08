@@ -46,6 +46,9 @@ export const CompPath = {
     /* 主游戏界面 */
     MainGameWindow: "MainGameWindow",
 
+    /* 主标题界面 */
+    TitleMenu: "UI_Menu/TitleMenu",
+
 }
 
 /**

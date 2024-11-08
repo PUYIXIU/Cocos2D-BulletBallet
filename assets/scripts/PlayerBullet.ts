@@ -9,7 +9,7 @@ const {ccclass, property} = cc._decorator;
 import { CompPath } from "./utils";
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class PlayerBullet extends cc.Component {
 
 
     @property
