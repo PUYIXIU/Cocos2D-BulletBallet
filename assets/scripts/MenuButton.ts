@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import { CompPath, changeSprite } from "./utils";
+import { CompPath, changeSprite, globalVar } from "./utils";
 
 enum ButtonType {
     "Pause Button" = 0,
@@ -43,7 +43,7 @@ export default class MenuButton extends cc.Component {
         })
     }
     Pause(){
-        console.log(CompPath)
+        globalVar.gameStart = false
     }
     Quit(){
 
@@ -51,8 +51,12 @@ export default class MenuButton extends cc.Component {
     Restart(){
 
     }
+    /**
+     * 开始游戏
+     */
     GameStart(){
-
+        cc.find(CompPath.StartLayer).active = false
+        globalVar.gameStart = true
     }
     ShowAbout(isAbout:boolean){
         cc.find(CompPath.GameStartMenu).active = !isAbout

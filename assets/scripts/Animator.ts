@@ -8,7 +8,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Animator extends cc.Component {
 
     animator:any = null
 
@@ -18,23 +18,53 @@ export default class NewClass extends cc.Component {
     @property
     animate_speed:number = 10
 
+    @property
+    autoPlay:boolean = true
     
     start () {
+        if(this.autoPlay){
+            this.play()
+        }
+    }
+
+    play(time?:number):Promise<void>{
+        
         if(!this.animateFrames){
             console.log("动画帧未转载")
             return
         }
-        console.log()
+        if(time){
+            // debugger
+        }
         const frames = this.animateFrames.getSpriteFrames()
         let index = 0
-        
-        this.animator = setInterval(()=>{
-            index++
-            index %= frames.length
-            this.node.getComponent(cc.Sprite).spriteFrame = frames[index]
-        }, 1000/this.animate_speed)
+        return new Promise((resolve, reject)=>{
+            let loopTime = 0
+            this.animator = setInterval(()=>{
+                if(!this.node) {
+                    clearInterval(this.animator)
+                    return
+                }
+                index++
+                
+                if(index == frames.length) loopTime ++
+                if(time && loopTime>=time){
+                    resolve()
+                    clearInterval(this.animator)
+                    return
+                }
+
+                index %= frames.length
+                this.node.getComponent(cc.Sprite).spriteFrame = frames[index]
+            }, 1000/this.animate_speed)
+        })
     }
 
-    
-    // update (dt) {}
+    // 修改动画帧
+    setAnimationFrames(frames: cc.SpriteAtlas, time?:number):Promise<void>{
+        clearInterval(this.animator)
+        this.animateFrames = frames
+        return this.play(time)
+    }
+
 }

@@ -5,41 +5,35 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import { CompPath } from "./utils";
-
 const {ccclass, property} = cc._decorator;
+import { CompPath } from "./utils";
 
 @ccclass
 export default class NewClass extends cc.Component {
 
-
-    bgs: cc.Node[] = []
-    scrollHeight:number = 0 
-
+    @property 
+    speed:number = 100
+    
     @property
-    scrollSpeed:number = 100
+    damage:number = 1
+
+    scrollWidth:number = 0
+    scrollHeight:number = 0
 
     onLoad(){
+        this.scrollWidth = cc.view.getVisibleSize().width
         this.scrollHeight = cc.view.getVisibleSize().height
-        cc.director.getCollisionManager().enabled = true
     }
+
 
     start () {
-        
+
     }
 
-    
     update (dt) {
-        this.backMove(dt)
-    }
-
-    // 背景移动
-    backMove(dt){
-        this.node.y -= this.scrollSpeed * dt
-        if(this.node.y < -this.scrollHeight){
-            this.node.y = 0
+        this.node.y -= this.speed * dt
+        if(this.node.y + this.node.height/2 < cc.find(CompPath["MainGameWindow"]).height - this.scrollHeight){
+            this.node.destroy()
         }
     }
-
-
 }

@@ -1,3 +1,15 @@
+// 全局变量
+export const globalVar = {
+    /* 游戏是否开启 */
+    gameStart: false,
+    /* 金币数量 */
+    coinValue: 0,
+    /* 心心数量 */
+    heartValue: 3,
+    /* 倒计时时间 */
+    lastTime: 60,
+}
+
 export const CompPath = {
     /**
      * 暂停菜单
@@ -16,10 +28,23 @@ export const CompPath = {
      * 游戏开始菜单
      */
     GameStartMenu: "UI_Menu/StartLayer/GameStartMenu",
-    /**
-     * 关于菜单
-     */
+    /* 关于菜单 */
     AboutMenu: "UI_Menu/StartLayer/AboutMenu",
+    
+    /* 滚动背景1 */
+    BackScene1: "Background/Scene1",
+    /* 滚动背景2 */
+    BackScene2: "Background/Scene2",
+
+    /* 金币数量 */
+    CoinValue: "UI_Menu/TitileMenu/CoinValue/value",
+    /* 心心数量 */
+    HeartValue: "UI_Menu/TitileMenu/HeartValue/value",
+    /* 剩余时间 */
+    LastTimeValue: "UI_Menu/TitileMenu/LastTime/value",
+
+    /* 主游戏界面 */
+    MainGameWindow: "MainGameWindow",
 
 }
 
@@ -45,3 +70,20 @@ export function changeSprite(node:cc.Node, sprite:cc.SpriteFrame| cc.SpriteFrame
     this.node.getComponent(cc.Sprite).spriteFrame = spriteValue
 }
 
+
+export const colliderTag = {
+    /* 玩家 */
+    "PLAYER":0,
+    
+    /* 雪球子弹 */
+    "PLAYER_BULLET_SNOW":1,
+
+    /* 敌人_spirit */
+    "ENEMY_SPIRIT":2,
+
+    /* 敌人_spirit_bullet */
+    "ENEMY_SPIRIT_BULLET":3,
+    
+    /* 金币 */
+    "COIN":4,
+}
