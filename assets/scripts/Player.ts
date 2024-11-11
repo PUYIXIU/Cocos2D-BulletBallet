@@ -19,6 +19,10 @@ export default class NewClass extends cc.Component {
   @property
   moveDuration: number = 8;
 
+  /** 射击速度 */
+  @property
+  shootSpeed: number = 0.5;
+
   /** 子弹预制件 */
   @property(cc.Prefab)
   bulletPre:cc.Prefab = null;
@@ -40,6 +44,11 @@ export default class NewClass extends cc.Component {
   
   isMoving: boolean = false;
 
+  // 受伤后无敌时间
+  @property
+  hurtTime: number = 3
+  hurtable: boolean = true
+
   start() {
     this.targetPosition.x = this.node.x;
     this.targetPosition.y = this.node.y;
@@ -50,14 +59,15 @@ export default class NewClass extends cc.Component {
     this.minX = xPad + this.node.width/2
     this.maxX = this.node.getParent().width + xPad - this.node.width
 
-    this.moveByKeyboard();
     this.moveByTouch()
+
+    setInterval(()=>{this.shoot()},this.shootSpeed*1000)
   }
 
   moveByTouch(){
     const touchWindow = cc.find(CompPath.MainGameWindow)
     const titleMenu = cc.find(CompPath.TitleMenu)
-    const maxY = titleMenu.y - titleMenu.height/2
+    const maxY = titleMenu.y - titleMenu.height
     touchWindow.on(cc.Node.EventType.TOUCH_START,(event:cc.Event.EventTouch)=>{
         this.isMoving = true
     })
@@ -70,62 +80,17 @@ export default class NewClass extends cc.Component {
     touchWindow.on(cc.Node.EventType.TOUCH_MOVE,(event:cc.Event.EventTouch)=>{
         if(this.isMoving){
             let ex = event.getLocationX(), ey = event.getLocationY()
-            if(ex - touchWindow.y <=0 ) {
+            if(ey - touchWindow.y <=0  || ey >= maxY) {
                 return
-            }else if(ey >= maxY){
+            }else if(ex <= this.minX || ex >= (this.maxX + 15)){
                 return
             }
-            this.node.x = ex - 15
-            this.node.y = ey - touchWindow.y
+            this.targetPosition.x = ex - 15
+            this.targetPosition.y =ey - touchWindow.y
         }
     })
   }
 
-  // 键盘移动
-  moveByKeyboard() {
-    cc.systemEvent.on(
-      cc.SystemEvent.EventType.KEY_DOWN,
-      (event: cc.Event.EventKeyboard) => {
-        switch (event.keyCode) {
-          case cc.macro.KEY.w:
-          case cc.macro.KEY.up:
-            // 判断node是否上方越界
-            if(this.targetPosition.y + this.moveSpeed >= this.maxY){
-                return
-            }
-            this.targetPosition.y += this.moveSpeed;
-            this.lastMoveTime++;
-            break;
-          case cc.macro.KEY.s:
-          case cc.macro.KEY.down:
-            if(this.targetPosition.y - this.moveSpeed <= 0){
-                return
-            }
-            this.targetPosition.y -= this.moveSpeed;
-            this.lastMoveTime++;
-            break;
-          case cc.macro.KEY.a:
-          case cc.macro.KEY.left:
-            if(this.targetPosition.x - this.moveSpeed < this.minX){
-                return
-            }
-            this.targetPosition.x -= this.moveSpeed;
-            this.lastMoveTime++;
-            break;
-          case cc.macro.KEY.d:
-          case cc.macro.KEY.right:
-            if(this.targetPosition.x + this.moveSpeed > this.maxX){
-                return
-            }
-            this.targetPosition.x += this.moveSpeed;
-            this.lastMoveTime++;
-            break;
-          case cc.macro.KEY.space:
-            this.shoot();
-        }
-      }
-    );
-  }
 
   /** 射击 */
   shoot() {
@@ -136,7 +101,6 @@ export default class NewClass extends cc.Component {
   }
 
   onCollisionEnter(other: cc.Collider, self: cc.Collider): void {
-    console.log(other, self);
     switch (other.tag) {
       case colliderTag["COIN"]:
         this.getCoin(other, self);
@@ -151,15 +115,15 @@ export default class NewClass extends cc.Component {
   }
 
   update(dt) {
-    let lastStep = this.lastMoveTime--;
-    if (this.lastMoveTime < 0) {
-      this.lastMoveTime = 0;
-      lastStep = 0;
-    }
     this.node.x +=
-      (this.targetPosition.x - this.node.x) / (this.moveDuration + lastStep);
+      (this.targetPosition.x - this.node.x) / this.moveDuration;
     this.node.y +=
-      (this.targetPosition.y - this.node.y) / (this.moveDuration + lastStep);
+      (this.targetPosition.y - this.node.y) / this.moveDuration;
+    if(!this.hurtable){
+      this.node.color.set(new cc.Color(184, 172, 223))
+    }else{
+      this.node.color.set(new cc.Color(255, 255, 255))
+    }
   }
 
   /**
@@ -192,12 +156,20 @@ export default class NewClass extends cc.Component {
 
   /** 掉血 */
   getHurt() {
-    globalVar.heartValue--;
-    cc.find(CompPath.HeartValue).getComponent(cc.Label).string =
-      globalVar.heartValue.toString().padStart(2, "0");
-    // 角色死亡
-    if (globalVar.heartValue == 0) {
-      console.log("dead");
+    // 不处于无敌时间
+    if(this.hurtable){
+      globalVar.heartValue--;
+      cc.find(CompPath.HeartValue).getComponent(cc.Label).string = globalVar.heartValue.toString().padStart(2, "0");
+      // 角色死亡
+      if (globalVar.heartValue == 0) {
+        console.log("dead");
+      }
+      this.hurtable = false
+      setTimeout(()=>{
+        this.hurtable = true
+      },this.hurtTime * 1000)
     }
   }
+
+
 }

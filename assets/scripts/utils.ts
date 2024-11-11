@@ -37,11 +37,11 @@ export const CompPath = {
     BackScene2: "Background/Scene2",
 
     /* 金币数量 */
-    CoinValue: "UI_Menu/TitileMenu/CoinValue/value",
+    CoinValue: "UI_Menu/TitleMenu/CoinValue/value",
     /* 心心数量 */
-    HeartValue: "UI_Menu/TitileMenu/HeartValue/value",
+    HeartValue: "UI_Menu/TitleMenu/HeartValue/value",
     /* 剩余时间 */
-    LastTimeValue: "UI_Menu/TitileMenu/LastTime/value",
+    LastTimeValue: "UI_Menu/TitleMenu/LastTime/value",
 
     /* 主游戏界面 */
     MainGameWindow: "MainGameWindow",
