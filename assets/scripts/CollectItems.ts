@@ -9,40 +9,25 @@ const {ccclass, property} = cc._decorator;
 import { CompPath, globalVar } from "./utils";
 
 @ccclass
-export default class PlayerBullet extends cc.Component {
-
-
-    // 子弹射速
-    @property
-    speed:number = 100;
-
-    // 子弹伤害
-    @property
-    attack:number = 15;
+export default class CollectItems extends cc.Component {
 
     scrollWidth:number = 0
     scrollHeight:number = 0
 
+    @property
+    moveSpeed:number = 100
     onLoad(){
         this.scrollWidth = cc.view.getVisibleSize().width
         this.scrollHeight = cc.view.getVisibleSize().height
     }
-
-
     start () {
 
     }
 
     update (dt) {
         if(globalVar.gamePause) return
-
-        let radian = (this.node.angle + 90) * Math.PI / 180
-
-        this.node.x += this.speed * Math.cos(radian)*dt
-        this.node.y += this.speed * Math.sin(radian)*dt
-
-        // this.node.y += this.speed * dt
-        if(this.node.y - this.node.height/2 > cc.find(CompPath["MainGameWindow"]).height){
+        this.node.y -= this.moveSpeed * dt
+        if(this.node.y + this.node.height/2 < cc.find(CompPath["MainGameWindow"]).height - this.scrollHeight){
             this.node.destroy()
         }
     }

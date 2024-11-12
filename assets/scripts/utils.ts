@@ -1,13 +1,32 @@
+
 // 全局变量
 export const globalVar = {
+    // 初始化的心心数
+    initHeart:0,
+    // 初始化的时间
+    initTime:30,
+
+    /* 有上层菜单显示 */
+    topMenuShow:false,
+
     /* 游戏是否开启 */
-    gameStart: false,
+    gameStart: true,
+
+    /* 游戏是否结束 */
+    gameOver:false,
+
+    /* 游戏胜利 */
+    gameWin:false,
+
+    /* 游戏是否暂停 */
+    gamePause:false,
+    
     /* 金币数量 */
     coinValue: 0,
     /* 心心数量 */
     heartValue: 3,
     /* 倒计时时间 */
-    lastTime: 60,
+    lastTime: 30,
 }
 
 export const CompPath = {
@@ -49,6 +68,18 @@ export const CompPath = {
     /* 主标题界面 */
     TitleMenu: "UI_Menu/TitleMenu",
 
+    /* 游戏结束界面 */
+    GameOverMenu: "UI_Menu/GameOverMenu",
+    /* 游戏胜利界面 */
+    GameWinMenu: "UI_Menu/GameWinMenu",
+
+    /* 游戏暂停菜单 */
+    PauseMenu: "UI_Menu/PauseMenu",
+
+    
+    /* 玩家 */
+    Player: "MainGameWindow/Player",
+
 }
 
 /**
@@ -89,4 +120,11 @@ export const colliderTag = {
     
     /* 金币 */
     "COIN":4,
+
+    /* 爱心 */
+    "HEART":5,
+    /* 发射子弹加速魔药 */
+    "SHOOT_POTION":6,
+    /* 散弹 */
+    "MULTI_SHOOT_ITEM":7,
 }

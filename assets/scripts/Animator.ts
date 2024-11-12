@@ -67,4 +67,8 @@ export default class Animator extends cc.Component {
         return this.play(time)
     }
 
+    stop(){
+        clearInterval(this.animator)
+    }
+
 }
