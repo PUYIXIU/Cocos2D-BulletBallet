@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerBullet",
+    "_name": "PlayerBullet-rock",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -46,7 +46,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 24,
-      "height": 23
+      "height": 24
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -57,7 +57,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        180.248,
+        123.248,
         110.095,
         0,
         0,
@@ -98,10 +98,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "2735d01f-0777-4bbd-8de8-80431f704d05"
+      "__uuid__": "b62d9d50-bac4-4e2d-be01-60428764adeb"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -110,9 +110,9 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
+    "_isTrimmedMode": false,
     "_atlas": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "5bafa1ce-aa84-4af2-83c1-72a7762fbc71"
     },
     "_id": ""
   },
@@ -125,7 +125,7 @@
     },
     "_enabled": true,
     "animateFrames": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "5bafa1ce-aa84-4af2-83c1-72a7762fbc71"
     },
     "animate_speed": 9.6,
     "autoPlay": true,
@@ -156,9 +156,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "speed": 200,
-    "attack": 15,
-    "rpk": 0.7,
+    "speed": 75,
+    "attack": 50,
+    "rpk": 1,
     "_id": ""
   },
   {

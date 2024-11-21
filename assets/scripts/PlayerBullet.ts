@@ -20,9 +20,13 @@ export default class PlayerBullet extends cc.Component {
     @property
     attack:number = 15;
 
+    // 子弹射速
+    @property
+    rpk:number = 0.5;
+
     scrollWidth:number = 0
     scrollHeight:number = 0
-
+    
     onLoad(){
         this.scrollWidth = cc.view.getVisibleSize().width
         this.scrollHeight = cc.view.getVisibleSize().height

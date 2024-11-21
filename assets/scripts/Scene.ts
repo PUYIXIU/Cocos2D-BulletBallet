@@ -10,7 +10,7 @@ import { CompPath, globalVar } from "./utils";
 const {ccclass, property} = cc._decorator;
 import Animator from './Animator'
 @ccclass
-export default class NewClass extends cc.Component {
+export default class BackScene extends cc.Component {
 
 
     bgs: cc.Node[] = []
@@ -48,7 +48,7 @@ export default class NewClass extends cc.Component {
     counter(){
         cc.find(CompPath.LastTimeValue).getComponent(cc.Label).string = "00 : " + globalVar.lastTime.toString().padStart(2,'0')
         this.timeCounter = setInterval(()=>{
-            if(globalVar.gamePause || !globalVar.gameStart) return
+            if(globalVar.gamePause || !globalVar.gameStart || globalVar.gameOver) return
             if(globalVar.lastTime == 0){
                 clearInterval(this.timeCounter)
                 globalVar.gameOver = true
@@ -59,6 +59,19 @@ export default class NewClass extends cc.Component {
                     this.schedule(()=>cc.find(CompPath.Player).getComponent(cc.Sprite).spriteFrame = assets[1],0,1,0.5)
                     this.schedule(()=>cc.find(CompPath.GameWinMenu).active = true,0,1,1.5)
                 })
+
+                // 已经是最后一关了
+                if(globalVar.currentLevel >= globalVar.totalLevel){
+                    cc.find(CompPath.NextLevelBtn).active = false
+                    cc.find(CompPath.OverBtn).active = true
+                    cc.find(CompPath.winTip).getComponent(cc.Label).string = 'Thank You For Play!'
+                    cc.find(CompPath.winTitle).getComponent(cc.Label).string = 'Congratulate'
+                }else{
+                    cc.find(CompPath.NextLevelBtn).active = true
+                    cc.find(CompPath.OverBtn).active = false
+                    cc.find(CompPath.winTip).getComponent(cc.Label).string = 'Good For You!'
+                    cc.find(CompPath.winTitle).getComponent(cc.Label).string = 'YOU WIN'
+                }
                 return
             }
             globalVar.lastTime --
@@ -69,7 +82,7 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     enemyPre:cc.Prefab = null
     @property
-    enemyCreateInterval:number = 1
+    enemyCreateInterval:number = 2
     enemyCreator = null
     // 在随机位置创建敌人
     createEnemy(){
@@ -139,9 +152,12 @@ export default class NewClass extends cc.Component {
     @property
     multiShootItemInterval:number = 20
     multiShootItemCreator = null
-    // 在随机位置创建加速设计魔药
+    // 在随机位置创建散弹射击饭团
     createMultiShootItem(){
         this.multiShootItemCreator = setInterval(()=>{
+
+            // 第一关不刷出来饭团
+            if(globalVar.currentLevel<= 1) return
             // 游戏暂停中
             if(globalVar.gamePause || globalVar.gameOver || !globalVar.gameStart) return
             const item = cc.instantiate(this.multiShootItem)

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerBullet",
+    "_name": "SlimeEnemy",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -45,8 +45,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 24,
-      "height": 23
+      "width": 30,
+      "height": 28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -57,8 +57,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        180.248,
-        110.095,
+        177.272,
+        238.867,
         0,
         0,
         0,
@@ -98,10 +98,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "2735d01f-0777-4bbd-8de8-80431f704d05"
+      "__uuid__": "97d07399-55bf-47c1-a2a2-4f6c1a2e3bc3"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -112,8 +112,56 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "9562f0eb-a3a3-4f6b-bd05-32eef26ab5d6"
     },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PolygonCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 2,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -5.625,
+        "y": 12.133333333333333
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -13.125,
+        "y": 4.666666666666668
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -13.125,
+        "y": -10.266666666666666
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 13.125,
+        "y": -10.266666666666666
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 15,
+        "y": -6.533333333333333
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 9.375,
+        "y": 10.266666666666666
+      }
+    ],
     "_id": ""
   },
   {
@@ -125,40 +173,25 @@
     },
     "_enabled": true,
     "animateFrames": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "9562f0eb-a3a3-4f6b-bd05-32eef26ab5d6"
     },
-    "animate_speed": 9.6,
+    "animate_speed": 10,
     "autoPlay": true,
     "_id": ""
   },
   {
-    "__type__": "cc.CircleCollider",
+    "__type__": "c0a7fKFSyVOHo1j7bAvvqma",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "tag": 1,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_radius": 11.8,
-    "_id": ""
-  },
-  {
-    "__type__": "250c1lheotJDqLjup2yEvGH",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "speed": 200,
-    "attack": 15,
-    "rpk": 0.7,
+    "moveSpeed": 75,
+    "heart": 30,
+    "bulletPre": null,
+    "shootSpeed": 1,
+    "blinkTime": 0.5,
     "_id": ""
   },
   {

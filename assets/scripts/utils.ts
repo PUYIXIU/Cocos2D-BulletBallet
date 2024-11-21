@@ -2,9 +2,9 @@
 // 全局变量
 export const globalVar = {
     // 初始化的心心数
-    initHeart:0,
+    initHeart:3,
     // 初始化的时间
-    initTime:30,
+    initTime:3,
 
     /* 有上层菜单显示 */
     topMenuShow:false,
@@ -22,13 +22,18 @@ export const globalVar = {
     gamePause:false,
     
     /* 金币数量 */
-    coinValue: 0,
+    coinValue: 10,
     /* 心心数量 */
     heartValue: 3,
     /* 倒计时时间 */
-    lastTime: 30,
+    lastTime: 0,
+    /* 当前关卡 */
+    currentLevel: 1,
+    /* 关卡总数量 */
+    totalLevel: 3
 }
 
+globalVar.lastTime = globalVar.initTime
 export const CompPath = {
     /**
      * 暂停菜单
@@ -50,6 +55,8 @@ export const CompPath = {
     /* 关于菜单 */
     AboutMenu: "UI_Menu/StartLayer/AboutMenu",
     
+    /* 背景容器 */
+    Back: "Background",
     /* 滚动背景1 */
     BackScene1: "Background/Scene1",
     /* 滚动背景2 */
@@ -61,6 +68,9 @@ export const CompPath = {
     HeartValue: "UI_Menu/TitleMenu/HeartValue/value",
     /* 剩余时间 */
     LastTimeValue: "UI_Menu/TitleMenu/LastTime/value",
+    /* 当前关卡 */
+    LevelNum: "UI_Menu/TitleMenu/LevelValue/LavelNum",
+
 
     /* 主游戏界面 */
     MainGameWindow: "MainGameWindow",
@@ -75,11 +85,21 @@ export const CompPath = {
 
     /* 游戏暂停菜单 */
     PauseMenu: "UI_Menu/PauseMenu",
-
+    /* 贩卖物品菜单 */
+    SaleMenu: "UI_Menu/SaleMenu",
     
     /* 玩家 */
     Player: "MainGameWindow/Player",
 
+    /* 下一关按钮 */
+    NextLevelBtn: "UI_Menu/GameWinMenu/MenuInner/NextLevelBtn",
+    /* 再玩一遍 */
+    OverBtn: "UI_Menu/GameWinMenu/MenuInner/OverBtn",
+    /* 游戏胜利提示 */
+    winTip: "UI_Menu/GameWinMenu/MenuInner/winTip",
+    /* 胜利标题 */
+    winTitle: "UI_Menu/GameWinMenu/MenuInner/winTitle",
+    
 }
 
 /**

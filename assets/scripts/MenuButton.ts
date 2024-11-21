@@ -8,6 +8,8 @@
 const {ccclass, property} = cc._decorator;
 import { CompPath, changeSprite, globalVar } from "./utils";
 import Animator from './Animator'
+import Player from "./Player";
+import BackScene from './Scene'
 enum ButtonType {
     "Pause Button" = 0,
     "Quit Button" = 1,
@@ -17,6 +19,8 @@ enum ButtonType {
     "Return Button" = 5,
     "Confirm Button" = 6,
     "Reset Button" = 7,
+    "Cancle Buy" = 8,
+    "Next Level" = 9,
 }
 
 @ccclass
@@ -51,6 +55,8 @@ export default class MenuButton extends cc.Component {
                 case 5: this.ShowAbout(false); break;
                 case 6: this.ConfirmSetting(); break;
                 case 7: this.ResetSetting(); break;
+                case 8: this.CancelBuy(); break;
+                case 9: this.NextLevel(); break;
                 default:break;
             }
         })
@@ -67,6 +73,13 @@ export default class MenuButton extends cc.Component {
         globalVar.gamePause = false
         globalVar.topMenuShow = false
     }
+
+    // 取消购买
+    CancelBuy(){
+        globalVar.gamePause = false
+        globalVar.topMenuShow = false
+        cc.find(CompPath.SaleMenu).active = false
+    }
     // 重置菜单的设置
     ResetSetting(){
 
@@ -82,18 +95,35 @@ export default class MenuButton extends cc.Component {
         })
     }
     /** 游戏重开 */
-    Restart(){
+    Restart(isNext:boolean = false){
         
-        // 重置金币数
-        globalVar.coinValue = 0
-        cc.find(CompPath.CoinValue).getComponent(cc.Label).string = globalVar.coinValue.toString().padStart(2, "0");
+        // 如果不是下一关，
+        if(!isNext){
+            // 重置金币数
+            globalVar.coinValue = 0
+            cc.find(CompPath.CoinValue).getComponent(cc.Label).string = globalVar.coinValue.toString().padStart(2, "0");
+            // 重置怪物
+            cc.resources.load('prefab/SlimeEnemy', cc.Prefab, (error:Error, assets:cc.Prefab) => {
+                if(error){
+                    console.error(error)
+                    return
+                }
+                cc.find(CompPath.Back).getComponent(BackScene).enemyPre = assets
+            })  
+            // 重置关卡
+            globalVar.currentLevel = 1
+            cc.find(CompPath.LevelNum).getComponent(cc.Label).string = globalVar.currentLevel.toString().padStart(2, '0')
         
+        
+        }        
+        cc.find(CompPath.Player).getComponent(Player).clearStatus()
+
         // 重制爱心数
         globalVar.heartValue = globalVar.initHeart
         cc.find(CompPath.HeartValue).getComponent(cc.Label).string = globalVar.heartValue.toString().padStart(2, "0");
 
         // 重置时间
-        globalVar.heartValue = globalVar.initTime
+        globalVar.lastTime = globalVar.initTime
         cc.find(CompPath.LastTimeValue).getComponent(cc.Label).string = "00 : " + globalVar.lastTime.toString().padStart(2,'0')
 
         cc.find(CompPath.GameOverMenu).active = false
@@ -104,8 +134,10 @@ export default class MenuButton extends cc.Component {
         const clearType = [
             'Coin',
             'Enemy',
+            'SlimeEnemy',
             'EnemyBullet',
             'PlayerBullet',
+            'EnemySkull',
         ]
         // 清空当前屏幕
         cc.find(CompPath.MainGameWindow).children.forEach((node:any)=>{
@@ -114,6 +146,9 @@ export default class MenuButton extends cc.Component {
             }
         })
         cc.find(CompPath.Player).getComponent(Animator).play()
+        
+        // 重新开启倒计时
+        cc.find(CompPath.Back).getComponent(BackScene).counter()
     }
     /**
      * 开始游戏
@@ -126,5 +161,46 @@ export default class MenuButton extends cc.Component {
     ShowAbout(isAbout:boolean){
         cc.find(CompPath.GameStartMenu).active = !isAbout
         cc.find(CompPath.AboutMenu).active = isAbout
+    }
+    // 下一关
+    NextLevel(){
+        this.Restart(true)
+        globalVar.currentLevel ++ 
+        if(globalVar.currentLevel > 10){
+            alert("已经是最后的关卡了！")
+            return
+        }
+        cc.find(CompPath.LevelNum).getComponent(cc.Label).string = globalVar.currentLevel.toString().padStart(2, '0')
+        
+        let sceneNode = cc.find(CompPath.Back).getComponent(BackScene)
+
+        switch(globalVar.currentLevel){
+            case 2:
+                // 第二关：灵魂怪物
+                cc.resources.load('prefab/Enemy', cc.Prefab, (error:Error, assets:cc.Prefab) => {
+                    if(error){
+                        console.error(error)
+                        return
+                    }
+                    sceneNode.enemyPre = assets
+                })
+                break;
+            
+            case 3:
+                // 第三关：头骨怪物
+                cc.resources.load('prefab/EnemySkull', cc.Prefab, (error:Error, assets:cc.Prefab) => {
+                    if(error){
+                        console.error(error)
+                        return
+                    }
+                    sceneNode.enemyPre = assets
+                })
+                break;
+                break;
+
+                
+
+        }
+
     }
 }

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerBullet",
+    "_name": "ShurikenBullet",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -45,8 +45,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 24,
-      "height": 23
+      "width": 14,
+      "height": 13
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -57,8 +57,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        180.248,
-        110.095,
+        131.301,
+        320.354,
         0,
         0,
         0,
@@ -98,7 +98,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "2735d01f-0777-4bbd-8de8-80431f704d05"
+      "__uuid__": "d0483c7d-6eb3-4d3e-b2c3-147772a9dde0"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -112,7 +112,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "f96802f2-9fe5-42df-9661-c86682e6ff8a"
     },
     "_id": ""
   },
@@ -125,40 +125,100 @@
     },
     "_enabled": true,
     "animateFrames": {
-      "__uuid__": "4d8f1c06-0228-4caf-a38f-2bc9a76e0ebb"
+      "__uuid__": "f96802f2-9fe5-42df-9661-c86682e6ff8a"
     },
-    "animate_speed": 9.6,
+    "animate_speed": 15,
     "autoPlay": true,
     "_id": ""
   },
   {
-    "__type__": "cc.CircleCollider",
+    "__type__": "cc.PolygonCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "tag": 1,
+    "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_radius": 11.8,
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -3,
+        "y": 6.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -3,
+        "y": 2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -7,
+        "y": 0.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -7,
+        "y": -2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -3,
+        "y": -2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -1,
+        "y": -6.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 2,
+        "y": -6.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 2,
+        "y": -2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 6,
+        "y": -0.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 6,
+        "y": 2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 2,
+        "y": 2.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": 6.5
+      }
+    ],
     "_id": ""
   },
   {
-    "__type__": "250c1lheotJDqLjup2yEvGH",
+    "__type__": "369f76Uh21P3bbW3O+yGClT",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "speed": 200,
-    "attack": 15,
-    "rpk": 0.7,
+    "speed": 175,
+    "damage": 1,
     "_id": ""
   },
   {

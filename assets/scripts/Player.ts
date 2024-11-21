@@ -7,6 +7,7 @@
 
 import { colliderTag, globalVar, CompPath } from "./utils";
 import Animator from './Animator'
+import PlayerBullet from "./PlayerBullet";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -20,9 +21,9 @@ export default class Player extends cc.Component {
   moveDuration: number = 8;
 
   /** 射击速度 */
-  @property
-  shootSpeed: number = 0.5;
+  shootSpeed: number = 0;
   shootController = null
+  shootMulti:number = 1
 
   /** 子弹预制件 */
   @property(cc.Prefab)
@@ -56,7 +57,11 @@ export default class Player extends cc.Component {
 
   // 是否是散射
   isMultiShoot: boolean = false
+
+  
+
   start() {
+    this.shootSpeed = this.bulletPre.data.getComponent(PlayerBullet).rpk
     this.emoji = this.node.getChildByName("Emoji")
 
     this.targetPosition.x = this.node.x;
@@ -70,7 +75,13 @@ export default class Player extends cc.Component {
 
     this.moveByTouch()
 
-    this.shootController = setInterval(()=>{this.shoot()},this.shootSpeed*1000)
+    this.shootController = setInterval(()=>{this.shoot()},this.bulletPre.data.getComponent(PlayerBullet).rpk*1000)
+  }
+
+  // 换弹
+  changeBullet(){
+    clearInterval(this.shootController)
+    this.shootController = setInterval(()=>{this.shoot()},this.bulletPre.data.getComponent(PlayerBullet).rpk * this.shootMulti *1000)
   }
 
   moveByTouch(){
@@ -181,6 +192,8 @@ export default class Player extends cc.Component {
    */
   getCoin(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
+    // 金币的上限是99
+    if(globalVar.coinValue >= 99) return
     globalVar.coinValue++;
     // this.changeEmoji('img/ui/emoji/emote12')
     cc.find(CompPath.CoinValue).getComponent(cc.Label).string =
@@ -226,9 +239,9 @@ export default class Player extends cc.Component {
   getShootPotion(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
     if(this.shootSpeed <= 0.2) return
-    this.shootSpeed *= 0.9
+    this.shootMulti *- 0.9
     clearInterval(this.shootController)
-    this.shootController = setInterval(()=>{this.shoot()},this.shootSpeed*1000)
+    this.shootController = setInterval(()=>{this.shoot()},this.bulletPre.data.getComponent(PlayerBullet).rpk * this.shootMulti *1000)
     this.changeEmoji('img/ui/emoji/emote12')
 
   }
@@ -281,6 +294,12 @@ export default class Player extends cc.Component {
           },1000)
         })
       }
+  }
+
+  // 清空状态
+  clearStatus(){
+    this.isMultiShoot = false
+    this.shootMulti = 1
   }
 
 }

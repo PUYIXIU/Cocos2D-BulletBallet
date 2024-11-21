@@ -50,7 +50,9 @@ export default class Enemy extends cc.Component {
     start () {
         this.node.on("death",this.death)
         this.shootController = setInterval(()=>{
-            this.shoot()
+            if(this.bulletPre){
+                this.shoot()
+            }
         }, this.shootSpeed * 1000) 
     }
 
