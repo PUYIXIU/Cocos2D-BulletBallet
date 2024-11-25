@@ -156,9 +156,12 @@
       "__id__": 1
     },
     "_enabled": true,
+    "shootAudio": {
+      "__uuid__": "c99f8dc2-ac16-4a28-a149-496b3326c08d"
+    },
     "speed": 100,
     "attack": 30,
-    "rpk": 0.5,
+    "rpk": 0.75,
     "_id": ""
   },
   {

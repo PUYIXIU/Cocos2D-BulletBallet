@@ -10,6 +10,7 @@ import { colliderTag, CompPath, globalVar } from "./utils";
 import Animator from "./Animator";
 import Player from './Player'
 import PlayerBullet from './PlayerBullet'
+import AudioController from "./AudioController";
 
 @ccclass
 export default class Enemy extends cc.Component {
@@ -42,12 +43,14 @@ export default class Enemy extends cc.Component {
     blinkTime: number = 0.5
     inBlink:boolean = false
 
+    audio:AudioController = null
     onLoad(){
-        this.scrollWidth = cc.view.getVisibleSize().width
-        this.scrollHeight = cc.view.getVisibleSize().height
+        this.scrollWidth = cc.view.getFrameSize().width
+        this.scrollHeight = cc.view.getFrameSize().height
     }
 
     start () {
+        this.audio = cc.find(CompPath.AudioController).getComponent(AudioController)
         this.node.on("death",this.death)
         this.shootController = setInterval(()=>{
             if(this.bulletPre){
@@ -92,7 +95,6 @@ export default class Enemy extends cc.Component {
 
     death(enemy: cc.Node){
         this.isDeath = true
-        
         cc.resources.load('img/effect/smoke/smoke', cc.SpriteAtlas, (error:Error, assets:cc.SpriteAtlas)=>{
             if(error){
                 console.error(error)
@@ -121,8 +123,10 @@ export default class Enemy extends cc.Component {
                 this.heart -= other.node.getComponent(PlayerBullet).attack
                 other.node.destroy()
                 if(this.heart <= 0){
+                    // 死亡
                     clearInterval(this.shootController)
                     this.death(this.node)
+                    this.audio.killEnemy()
                 }else{
                     // 闪烁表示受伤
                     // 清空之前的定时器
@@ -130,6 +134,7 @@ export default class Enemy extends cc.Component {
                         clearTimeout(this.blinkController)
                         this.blinkController = null
                     }
+                    this.audio.hitEnemy()
                     this.inBlink = true
                     this.blinkController = setTimeout(()=>{
                         this.inBlink = false

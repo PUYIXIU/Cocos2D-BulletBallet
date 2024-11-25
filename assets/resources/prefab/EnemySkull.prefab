@@ -124,7 +124,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "tag": 0,
+    "tag": 2,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -219,8 +219,10 @@
     "_enabled": true,
     "moveSpeed": 75,
     "heart": 50,
-    "bulletPre": null,
-    "shootSpeed": 1,
+    "bulletPre": {
+      "__uuid__": "83082ec8-e9f2-46be-add6-ce87b96794b8"
+    },
+    "shootSpeed": 2,
     "blinkTime": 0.5,
     "_id": ""
   },

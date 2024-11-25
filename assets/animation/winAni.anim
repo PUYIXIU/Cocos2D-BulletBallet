@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "winAni",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6666666666666666,
+  "sample": 60,
+  "speed": 0.3,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "y": [
+        {
+          "frame": 0,
+          "value": 96.113,
+          "curve": "cubicInOut"
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": 768.901
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "frame": 0,
+      "func": "AniStartPlay",
+      "params": []
+    },
+    {
+      "frame": 0.6666666666666666,
+      "func": "AniFinishPlay",
+      "params": []
+    }
+  ]
+}

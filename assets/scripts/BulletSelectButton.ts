@@ -63,6 +63,8 @@ export default class BulletSelectButton extends cc.Component {
         }
 
         this.node.on(cc.Node.EventType.TOUCH_END, (event:cc.Event)=>{
+            // 已经有上层弹窗
+            if(globalVar.topMenuShow) return
             this.handleClick()
         })
     }

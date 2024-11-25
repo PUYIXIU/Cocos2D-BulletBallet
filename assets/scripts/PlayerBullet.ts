@@ -11,6 +11,9 @@ import { CompPath, globalVar } from "./utils";
 @ccclass
 export default class PlayerBullet extends cc.Component {
 
+    // 子弹射击声音
+    @property(cc.AudioClip)
+    shootAudio:cc.AudioClip = null
 
     // 子弹射速
     @property
@@ -28,8 +31,8 @@ export default class PlayerBullet extends cc.Component {
     scrollHeight:number = 0
     
     onLoad(){
-        this.scrollWidth = cc.view.getVisibleSize().width
-        this.scrollHeight = cc.view.getVisibleSize().height
+        this.scrollWidth = cc.view.getFrameSize().width
+        this.scrollHeight = cc.view.getFrameSize().height
     }
 
 

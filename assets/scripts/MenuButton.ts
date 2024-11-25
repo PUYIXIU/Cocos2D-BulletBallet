@@ -10,6 +10,8 @@ import { CompPath, changeSprite, globalVar } from "./utils";
 import Animator from './Animator'
 import Player from "./Player";
 import BackScene from './Scene'
+import BulletSelectButton from "./BulletSelectButton";
+import AudioController from "./AudioController";
 enum ButtonType {
     "Pause Button" = 0,
     "Quit Button" = 1,
@@ -43,9 +45,13 @@ export default class MenuButton extends cc.Component {
 
     start () {
 
-        // })
-
         this.node.on(cc.Node.EventType.TOUCH_END, (event:cc.Event.EventTouch) => {
+            if(![3,4,5,8,9,6,2].includes(this.type) && globalVar.topMenuShow){
+                cc.find(CompPath.AudioController).getComponent(AudioController).playCancelBtnClick()
+                return
+            }
+            cc.find(CompPath.AudioController).getComponent(AudioController).playBtnClick()
+            // 播放按钮被点击音效
             switch(this.type){
                 case 0: this.Pause(); break;
                 case 1: this.Quit(); break;
@@ -114,6 +120,20 @@ export default class MenuButton extends cc.Component {
             globalVar.currentLevel = 1
             cc.find(CompPath.LevelNum).getComponent(cc.Label).string = globalVar.currentLevel.toString().padStart(2, '0')
         
+            // 重置卷轴购买状态，重置子弹
+            let scrollList = cc.find(CompPath.scrollList)
+            let bulletNodes = scrollList.children
+            cc.find(CompPath.Player).getComponent(Player).bulletPre = bulletNodes[0].getComponent(BulletSelectButton).bulletPrefab
+            cc.find(CompPath.Player).getComponent(Player).changeBullet()
+
+            for(let i = 1; i < bulletNodes.length; i++){
+                let bullet = bulletNodes[i].getComponent(BulletSelectButton)
+                bullet.isSaled = false
+                bullet.maskLayer.active = true
+                bullet.scrollLayer.active = false
+                bullet.node.color = bullet.maskColor
+            }
+
         
         }        
         cc.find(CompPath.Player).getComponent(Player).clearStatus()
@@ -133,11 +153,19 @@ export default class MenuButton extends cc.Component {
         
         const clearType = [
             'Coin',
+            'Heart',
+            'MultiShootItem',
+            'ShootPotion',
             'Enemy',
             'SlimeEnemy',
             'EnemyBullet',
+            'ShurikenBullet',
             'PlayerBullet',
             'EnemySkull',
+            'EnemyMole',
+            'EnemyMoleBullet',
+            'EnemyEye',
+            'EnemyEyeBullet',
         ]
         // 清空当前屏幕
         cc.find(CompPath.MainGameWindow).children.forEach((node:any)=>{
@@ -156,6 +184,10 @@ export default class MenuButton extends cc.Component {
     GameStart(){
         cc.find(CompPath.StartLayer).active = false
         globalVar.gameStart = true
+        globalVar.topMenuShow = false
+        let fireWare = cc.find("fireworkBox/StartAnime")
+        let fireWareAni =  fireWare.getComponent(cc.Animation)
+        fireWareAni.play('StartFire')
         
     }
     ShowAbout(isAbout:boolean){
@@ -166,10 +198,6 @@ export default class MenuButton extends cc.Component {
     NextLevel(){
         this.Restart(true)
         globalVar.currentLevel ++ 
-        if(globalVar.currentLevel > 10){
-            alert("已经是最后的关卡了！")
-            return
-        }
         cc.find(CompPath.LevelNum).getComponent(cc.Label).string = globalVar.currentLevel.toString().padStart(2, '0')
         
         let sceneNode = cc.find(CompPath.Back).getComponent(BackScene)
@@ -196,11 +224,33 @@ export default class MenuButton extends cc.Component {
                     sceneNode.enemyPre = assets
                 })
                 break;
-                break;
 
+            case 4:
+                // 第4关：Mole加农炮怪物
+                cc.resources.load('prefab/EnemyMole', cc.Prefab, (error:Error, assets:cc.Prefab) => {
+                    if(error){
+                        console.error(error)
+                        return
+                    }
+                    sceneNode.enemyPre = assets
+                })
+                break;
                 
 
+            case 5:
+                // 第5关：Eye眼睛怪物
+                cc.resources.load('prefab/EnemyEye', cc.Prefab, (error:Error, assets:cc.Prefab) => {
+                    if(error){
+                        console.error(error)
+                        return
+                    }
+                    sceneNode.enemyPre = assets
+                })
+                break;
         }
+        let fireWare = cc.find("fireworkBox/StartAnime")
+        let fireWareAni =  fireWare.getComponent(cc.Animation)
+        fireWareAni.play('StartFire')
 
     }
 }

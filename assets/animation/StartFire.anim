@@ -1,0 +1,44 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "StartFire",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.25,
+  "sample": 60,
+  "speed": 1.25,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            181.297,
+            0.422,
+            0
+          ]
+        },
+        {
+          "frame": 1.25,
+          "value": [
+            181.297,
+            1326.743,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "frame": 0,
+      "func": "AniStartPlay",
+      "params": []
+    },
+    {
+      "frame": 1.25,
+      "func": "AniFinishPlay",
+      "params": []
+    }
+  ]
+}

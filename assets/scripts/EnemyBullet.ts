@@ -21,8 +21,8 @@ export default class EnemyBullet extends cc.Component {
     scrollHeight:number = 0
 
     onLoad(){
-        this.scrollWidth = cc.view.getVisibleSize().width
-        this.scrollHeight = cc.view.getVisibleSize().height
+        this.scrollWidth = cc.view.getFrameSize().width
+        this.scrollHeight = cc.view.getFrameSize().height
     }
 
 

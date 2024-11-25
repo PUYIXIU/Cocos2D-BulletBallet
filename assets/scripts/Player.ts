@@ -5,9 +5,11 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import { colliderTag, globalVar, CompPath } from "./utils";
+import { colliderTag, globalVar, CompPath, AudioPath } from "./utils";
 import Animator from './Animator'
 import PlayerBullet from "./PlayerBullet";
+import AudioController from "./AudioController";
+import Enemy from "./Enemy";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -59,8 +61,9 @@ export default class Player extends cc.Component {
   isMultiShoot: boolean = false
 
   
-
+  audio:AudioController = null
   start() {
+    this.audio = cc.find(CompPath.AudioController).getComponent(AudioController)
     this.shootSpeed = this.bulletPre.data.getComponent(PlayerBullet).rpk
     this.emoji = this.node.getChildByName("Emoji")
 
@@ -134,6 +137,8 @@ export default class Player extends cc.Component {
         bullet.setParent(cc.find(CompPath.MainGameWindow))
       }
     }
+
+    this.audio.playShoot(this.bulletPre.data.getComponent(PlayerBullet).shootAudio)
   }
 
   onCollisionEnter(other: cc.Collider, self: cc.Collider): void {
@@ -192,6 +197,8 @@ export default class Player extends cc.Component {
    */
   getCoin(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
+    // 金币音效
+    this.audio.playCoin()
     // 金币的上限是99
     if(globalVar.coinValue >= 99) return
     globalVar.coinValue++;
@@ -204,20 +211,32 @@ export default class Player extends cc.Component {
    */
   getHeart(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
+    // 金币音效
+    this.audio.playHeart()
     if(globalVar.heartValue>= 5) return
     globalVar.heartValue++;
     this.changeEmoji('img/ui/emoji/emote27')
     cc.find(CompPath.HeartValue).getComponent(cc.Label).string =
       globalVar.heartValue.toString().padStart(2, "0");
   }
+  @property
+  multiShootTime:number = 5
+  multiShootInterval = null
   /**
    * 散射
    */
   multiShoot(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
+    this.audio.playMultiShootPotion()
     if(this.isMultiShoot) return
     this.changeEmoji('img/ui/emoji/emote27')
     this.isMultiShoot = true
+    
+    // 存在散射时间限制
+    this.multiShootInterval = setTimeout(()=>{
+      this.isMultiShoot = false
+      clearTimeout(this.multiShootInterval)
+    },this.multiShootTime * 1000)
   }
   changeEmoji(path){
     cc.resources.load(path, cc.SpriteFrame,(error:Error,assets:cc.SpriteFrame)=>{
@@ -238,7 +257,8 @@ export default class Player extends cc.Component {
    */
   getShootPotion(other: cc.Collider, self: cc.Collider) {
     other.node.destroy();
-    if(this.shootSpeed <= 0.2) return
+    this.audio.playShootPotion()
+    if(this.shootMulti <= 0.5) return
     this.shootMulti *- 0.9
     clearInterval(this.shootController)
     this.shootController = setInterval(()=>{this.shoot()},this.bulletPre.data.getComponent(PlayerBullet).rpk * this.shootMulti *1000)
@@ -268,6 +288,8 @@ export default class Player extends cc.Component {
    * 2. 播放敌人爆炸东湖
    */
   getFight(other: cc.Collider, self: cc.Collider) {
+    let enemy = other.node.getComponent(Enemy)
+    if(enemy.isDeath) return
     this.getHurt();
     other.node.emit("death", other.node);
   }
@@ -280,7 +302,7 @@ export default class Player extends cc.Component {
       cc.find(CompPath.HeartValue).getComponent(cc.Label).string = globalVar.heartValue.toString().padStart(2, "0");
       // 角色死亡，游戏结束
       if (globalVar.heartValue == 0) {
-        console.log("dead");
+        this.audio.playGameEnd()
         globalVar.gameOver = true
         this.node.getComponent(Animator).stop()
         cc.resources.load('img/chara/master/Dead',cc.SpriteFrame,(error:Error, assets: cc.SpriteFrame)=>{
@@ -293,6 +315,9 @@ export default class Player extends cc.Component {
             cc.find(CompPath.GameOverMenu).active = true
           },1000)
         })
+      }else{
+        // 播放受伤音效
+        this.audio.playerHurt()
       }
   }
 

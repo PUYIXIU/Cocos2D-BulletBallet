@@ -17,8 +17,8 @@ export default class CollectItems extends cc.Component {
     @property
     moveSpeed:number = 100
     onLoad(){
-        this.scrollWidth = cc.view.getVisibleSize().width
-        this.scrollHeight = cc.view.getVisibleSize().height
+        this.scrollWidth = cc.view.getFrameSize().width
+        this.scrollHeight = cc.view.getFrameSize().height
     }
     start () {
 

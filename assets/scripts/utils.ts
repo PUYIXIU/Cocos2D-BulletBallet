@@ -4,13 +4,13 @@ export const globalVar = {
     // 初始化的心心数
     initHeart:3,
     // 初始化的时间
-    initTime:3,
+    initTime:60,
 
     /* 有上层菜单显示 */
-    topMenuShow:false,
+    topMenuShow:true,
 
     /* 游戏是否开启 */
-    gameStart: true,
+    gameStart: false,
 
     /* 游戏是否结束 */
     gameOver:false,
@@ -22,7 +22,7 @@ export const globalVar = {
     gamePause:false,
     
     /* 金币数量 */
-    coinValue: 10,
+    coinValue: 0,
     /* 心心数量 */
     heartValue: 3,
     /* 倒计时时间 */
@@ -30,7 +30,7 @@ export const globalVar = {
     /* 当前关卡 */
     currentLevel: 1,
     /* 关卡总数量 */
-    totalLevel: 3
+    totalLevel: 5
 }
 
 globalVar.lastTime = globalVar.initTime
@@ -100,6 +100,16 @@ export const CompPath = {
     /* 胜利标题 */
     winTitle: "UI_Menu/GameWinMenu/MenuInner/winTitle",
     
+    /* 胜利特效 */
+    firework: "fireworkBox/firework",
+    /* 胜利特效 */
+    winFire: "fireworkBox/winFire",
+
+    /* 卷轴列表 */
+    scrollList: "UI_Menu/FooterMenu/DialogBoxFaceset/ScrollList",
+    /* 音效控制器 */
+    AudioController: "AudioController"
+    
 }
 
 /**
@@ -147,4 +157,46 @@ export const colliderTag = {
     "SHOOT_POTION":6,
     /* 散弹 */
     "MULTI_SHOOT_ITEM":7,
+}
+
+export const AudioPath = {
+    /* 高音按钮 */
+    buttonHigh:'audio/button-high',
+    /* 按钮点击 */
+    buttonClick:'audio/btn-click',
+
+    /* 吃金币 */
+    coin:'audio/Gold',
+    /* 加速发射魔药 */
+    shootPotion:'audio/shootPotion',
+    /* 多发魔弹饭团 */
+    multiShootPotion: 'audio/multiShootPotion',
+    /* 爱心 */
+    heart:'audio/heart',
+
+    /* 发射火球 */
+    fireball:'audio/Fireball',
+    /* 发射石头 */
+    stoneShoot: 'audio/stoneShoot',
+    /* 发射冰弹 */
+    iceShoot:'audio/iceShoot',
+    /* 发射叶旋风 */
+    plantShoot: 'audio/plantShoot',
+
+    /* 游戏结束 */
+    GameOver:'audio/GameOver',
+    /* 游戏胜利 */
+    win: 'audio/win',
+
+    /* 击中敌人 */
+    hit:'audio/enemy-hurt',
+    /* 杀死敌人 */
+    kill:'audio/enemy-kill',
+
+    /* 玩家受伤 */
+    hurt:'audio/player-hurt',
+
+
+    /* 背景音乐 */
+    backBgm: 'audio/back-bgm',
 }

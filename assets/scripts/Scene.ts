@@ -9,6 +9,7 @@ import { CompPath, globalVar } from "./utils";
 
 const {ccclass, property} = cc._decorator;
 import Animator from './Animator'
+import AudioController from './AudioController'
 @ccclass
 export default class BackScene extends cc.Component {
 
@@ -26,16 +27,29 @@ export default class BackScene extends cc.Component {
     
     timeCounter = null
 
+    audio:AudioController = null
+
     onLoad(){
-        this.scrollHeight = cc.view.getVisibleSize().height
+        // this.scrollHeight = cc.view.getVisibleSize().height
+        if(cc.sys.isMobile){
+            this.scrollHeight = cc.view.getFrameSize().height 
+        }else{
+            this.scrollHeight = cc.view.getVisibleSize().height
+        }
         cc.director.getCollisionManager().enabled = true
     }
 
     start () {
+        this.audio = cc.find(CompPath.AudioController).getComponent(AudioController)
+        if(cc.sys.isMobile){
+            this.resize()
+            this.maxY = cc.view.getFrameSize().height 
+        }else{
+            this.maxY = cc.view.getVisibleSize().height 
+        }
         let xPad = 15
         this.minX = xPad 
         this.maxX = cc.find(CompPath.MainGameWindow).width + xPad
-        this.maxY = cc.view.getVisibleSize().height 
         this.createEnemy()
         this.createCoin()
         this.createHeart()
@@ -44,6 +58,67 @@ export default class BackScene extends cc.Component {
         this.counter()
     }
 
+    resize(){
+        console.log(this.scrollHeight, cc.view.getCanvasSize().height)
+        this.node.height = this.scrollHeight
+        this.node.children.forEach((screenNode,index) =>{
+            screenNode.height = this.scrollHeight + 30
+            if(index==1){
+                // 第二张
+                screenNode.y = screenNode.height
+            }
+        })
+        // let startMenu = cc.find('UI_Menu/StartLayer')
+        let needToChangeMenu = [
+            cc.find('UI_Menu/PauseMenu'),
+            cc.find('UI_Menu/GameOverMenu'),
+            cc.find('UI_Menu/StartLayer'),
+            cc.find('UI_Menu/GameWinMenu'),
+            cc.find('UI_Menu/SaleMenu'),
+        ]
+        needToChangeMenu.forEach(node=>{
+            let mask = node.getChildByName('mask')
+            // mask.height = this.scrollHeight
+            mask.height = cc.view.getCanvasSize().height
+            mask.y -= 40
+        })
+        let SceneList = [
+            cc.find('Background/Scene1'),
+            cc.find('Background/Scene2'),
+        ]
+        SceneList.forEach(node=>{
+            node.height = this.scrollHeight+ 30
+        })
+        cc.find('Background/Scene1/SkyLayer/sky').height =  this.scrollHeight + 30
+        cc.find('Background/Scene2/SkyLayer/sky').height =  this.scrollHeight + 30
+        cc.find('Background/Scene2').y =  this.scrollHeight + 30
+
+        let groundLayers = [
+            cc.find('Background/Scene1/GroundLayer'),
+            cc.find('Background/Scene2/GroundLayer'),
+        ]
+        groundLayers.forEach(node=>{
+            node.children.forEach(item=>{
+                item.height = this.scrollHeight + 30
+            })
+        })
+
+        cc.find('UI_Menu/TitleMenu').y += (this.scrollHeight - cc.view.getVisibleSize().height - 20)
+
+        let dialogInnerLayers = [
+            cc.find('UI_Menu/PauseMenu/MenuInner'),
+            cc.find('UI_Menu/GameOverMenu/MenuInner'),
+            cc.find('UI_Menu/StartLayer/GameStartMenu'),
+            cc.find('UI_Menu/StartLayer/AboutMenu'),
+            cc.find('UI_Menu/GameWinMenu/MenuInner'),
+            cc.find('UI_Menu/SaleMenu/MenuInner'),
+        ]
+
+        dialogInnerLayers.forEach(node=>{
+            node.y += (this.scrollHeight - cc.view.getVisibleSize().height - 20 )
+        })
+
+    }
     // 倒计时
     counter(){
         cc.find(CompPath.LastTimeValue).getComponent(cc.Label).string = "00 : " + globalVar.lastTime.toString().padStart(2,'0')
@@ -51,6 +126,7 @@ export default class BackScene extends cc.Component {
             if(globalVar.gamePause || !globalVar.gameStart || globalVar.gameOver) return
             if(globalVar.lastTime == 0){
                 clearInterval(this.timeCounter)
+                this.audio.playGameWin()
                 globalVar.gameOver = true
                 globalVar.topMenuShow = true
                 cc.find(CompPath.Player).getComponent(Animator).stop()
@@ -66,11 +142,20 @@ export default class BackScene extends cc.Component {
                     cc.find(CompPath.OverBtn).active = true
                     cc.find(CompPath.winTip).getComponent(cc.Label).string = 'Thank You For Play!'
                     cc.find(CompPath.winTitle).getComponent(cc.Label).string = 'Congratulate'
+                    // 播放游戏结束动画
+                    let winFire = cc.find(CompPath.winFire)
+                    let winFireAni = winFire.getComponent(cc.Animation)
+                    winFireAni.play('winAni')
                 }else{
                     cc.find(CompPath.NextLevelBtn).active = true
                     cc.find(CompPath.OverBtn).active = false
                     cc.find(CompPath.winTip).getComponent(cc.Label).string = 'Good For You!'
                     cc.find(CompPath.winTitle).getComponent(cc.Label).string = 'YOU WIN'
+                    
+                    // 播放胜利动画
+                    let fireWare = cc.find(CompPath.firework)
+                    let fireWareAni =  fireWare.getComponent(cc.Animation)
+                    fireWareAni.play('starFloat')
                 }
                 return
             }
@@ -176,8 +261,17 @@ export default class BackScene extends cc.Component {
     // 背景移动
     backMove(dt){
         this.node.y -= this.scrollSpeed * dt
-        if(this.node.y < -this.scrollHeight){
-            this.node.y = 0
+
+        if(cc.sys.isMobile){
+            if(this.node.y <= - this.scrollHeight - 70){
+                this.node.y = - 40
+                return
+            }
+        }else{
+            if(this.node.y <= - this.scrollHeight){
+                this.node.y = 0
+                return
+            }
         }
     }
 
