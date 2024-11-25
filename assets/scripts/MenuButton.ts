@@ -88,7 +88,7 @@ export default class MenuButton extends cc.Component {
     }
     // 重置菜单的设置
     ResetSetting(){
-
+        
     }
     Quit(){
         globalVar.gameOver = true

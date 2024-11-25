@@ -107,9 +107,13 @@ export const CompPath = {
 
     /* 卷轴列表 */
     scrollList: "UI_Menu/FooterMenu/DialogBoxFaceset/ScrollList",
+
     /* 音效控制器 */
-    AudioController: "AudioController"
-    
+    AudioController: "AudioController",
+    /* 背景音乐控制器 */
+    bgmController: "AudioController/BgmController",
+    /* 音效控制器 */
+    effectController: "AudioController/EffectController",
 }
 
 /**
