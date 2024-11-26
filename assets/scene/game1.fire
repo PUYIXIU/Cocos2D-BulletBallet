@@ -7082,8 +7082,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        137.794,
-        63.053,
+        181.701,
+        136.627,
         0,
         0,
         0,
@@ -7240,8 +7240,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        165.306,
-        263,
+        181.734,
+        190.944,
         0,
         0,
         0,
@@ -7412,8 +7412,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        182.2,
-        271.917,
+        171.844,
+        681.852,
         0,
         0,
         0,
@@ -7557,8 +7557,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        128.054,
-        151.986,
+        176.068,
+        959.322,
         0,
         0,
         0,
@@ -26621,8 +26621,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        12.977,
-        -12.199,
+        11.317,
+        -11.258,
         0,
         0,
         0,
@@ -26718,7 +26718,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        41.378,
+        39.201,
         -10.828,
         0,
         0,
@@ -26815,7 +26815,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        72.415,
+        68.799,
         -11.285,
         0,
         0,
@@ -26900,7 +26900,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14,
+      "width": 26,
       "height": 17.64
     },
     "_anchorPoint": {
@@ -26952,8 +26952,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "30",
-    "_N$string": "30",
+    "_string": "0.75",
+    "_N$string": "0.75",
     "_fontSize": 14,
     "_lineHeight": 14,
     "_enableWrapText": true,
@@ -28397,7 +28397,7 @@
       "__uuid__": "fafcb9b9-1244-4a53-9374-e13b1f18cbaa"
     },
     "_texture": null,
-    "_stopped": false,
+    "_stopped": true,
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
     "totalParticles": 300,

@@ -36,8 +36,6 @@ export default class Player extends cc.Component {
     x: 0,
     y: 0,
   };
-  /** 控制移动速度 */
-  lastMoveTime: number = 0;
   
   /** 可移动的最大y值 */
   maxY:number = 0
@@ -189,7 +187,6 @@ export default class Player extends cc.Component {
       (this.targetPosition.x - this.node.x) / this.moveDuration;
     this.node.y +=
       (this.targetPosition.y - this.node.y) / this.moveDuration;
-
   }
 
   /**

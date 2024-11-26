@@ -121,6 +121,10 @@ export default class BackScene extends cc.Component {
     }
     // 倒计时
     counter(){
+        if(this.timeCounter){
+            // 清除倒计时
+            clearInterval(this.timeCounter)
+        }
         cc.find(CompPath.LastTimeValue).getComponent(cc.Label).string = "00 : " + globalVar.lastTime.toString().padStart(2,'0')
         this.timeCounter = setInterval(()=>{
             if(globalVar.gamePause || !globalVar.gameStart || globalVar.gameOver) return
@@ -261,7 +265,6 @@ export default class BackScene extends cc.Component {
     // 背景移动
     backMove(dt){
         this.node.y -= this.scrollSpeed * dt
-
         if(cc.sys.isMobile){
             if(this.node.y <= - this.scrollHeight - 70){
                 this.node.y = - 40
